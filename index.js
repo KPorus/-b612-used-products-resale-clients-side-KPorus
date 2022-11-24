@@ -49,6 +49,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         const samsungCollection = client.db('Mobile').collection('samsung');
+        const appleCollection = client.db('Mobile').collection('apple');
         
         
         app.get("/",(req,res)=>
@@ -56,6 +57,7 @@ async function run() {
             res.send("I am watching. caught you")
         })
 
+        // samsung
         app.get('/samsung',async(req,res)=>
         {
             const query = {};
@@ -69,8 +71,26 @@ async function run() {
             const query = { _id: ObjectId(id) };
             const cursor = samsungCollection.find(query);
             const cat1 = await cursor.toArray();
-            console.log(cat1)
             res.send(cat1);
+        })
+
+        //apple
+        app.get('/apple',async(req,res)=>
+        {
+            const query = {};
+            const apple = appleCollection.find(query);
+            const cat2 = await apple.toArray();
+            res.send(cat2);
+        })
+
+        app.get('/apple/:id',async(req,res)=>
+        {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const apple = appleCollection.find(query);
+            const cat2 = await apple.toArray();
+            console.log(cat2)
+            res.send(cat2);
         })
     }
     finally {
