@@ -92,6 +92,22 @@ async function run() {
             res.send(result);
         })
 
+        app.get("/userProduct/apple",async(req,res)=>
+        {
+            const query = {brandName:"apple"};
+            const result = await userProductCollection.find(query).toArray();
+            console.log(result)
+            res.send(result);
+        })
+
+        app.get("/userProduct/walton",async(req,res)=>
+        {
+            const query = {brandName:"walton"};
+            const result = await userProductCollection.find(query).toArray();
+            console.log(result)
+            res.send(result);
+        })
+
         // samsung
         app.get('/samsung',async(req,res)=>
         {
