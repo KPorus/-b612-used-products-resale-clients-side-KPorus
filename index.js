@@ -50,12 +50,25 @@ async function run() {
     try {
         const samsungCollection = client.db('Mobile').collection('samsung');
         const appleCollection = client.db('Mobile').collection('apple');
+        const waltonCollection = client.db('Mobile').collection('walton');
+        const userCollection = client.db('Mobile').collection('user');
         
         
         app.get("/",(req,res)=>
         {
             res.send("I am watching. caught you")
         })
+
+
+        // user
+
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            console.log(user);
+            const result = await userCollection.insertOne(user);
+            res.send(result);
+        });
+
 
         // samsung
         app.get('/samsung',async(req,res)=>
@@ -91,6 +104,25 @@ async function run() {
             const cat2 = await apple.toArray();
             console.log(cat2)
             res.send(cat2);
+        })
+
+        //walton
+        app.get('/walton',async(req,res)=>
+        {
+            const query = {};
+            const walton = waltonCollection.find(query);
+            const cat3 = await walton.toArray();
+            res.send(cat3);
+        })
+
+        app.get('/walton/:id',async(req,res)=>
+        {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const walton = waltonCollection.find(query);
+            const cat3 = await walton.toArray();
+            console.log(cat3)
+            res.send(cat3);
         })
     }
     finally {
