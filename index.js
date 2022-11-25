@@ -61,7 +61,7 @@ async function run() {
         })
 
 
-        // user
+        // buyer user api
 
         app.post('/users', async (req, res) => {
             const user = req.body;
@@ -108,6 +108,22 @@ async function run() {
             res.send(result);
         })
 
+        app.get("/userProduct/:email",async(req,res)=>
+        {
+            const email = req.params.email
+            console.log(email)
+            const query = {email};
+            const result = await userProductCollection.find(query).toArray();
+            console.log(result)
+            res.send(result)
+        })
+
+        app.delete("/userProduct/:id",async(req,res)=>{
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = await userProductCollection.deleteOne(filter);
+            res.send(result);
+        })
         // samsung
         app.get('/samsung',async(req,res)=>
         {
