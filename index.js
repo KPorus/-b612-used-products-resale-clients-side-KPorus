@@ -52,6 +52,7 @@ async function run() {
         const appleCollection = client.db('Mobile').collection('apple');
         const waltonCollection = client.db('Mobile').collection('walton');
         const userCollection = client.db('Mobile').collection('user');
+        const userProductCollection = client.db('Mobile').collection('userProduct');
         
         
         app.get("/",(req,res)=>
@@ -69,6 +70,27 @@ async function run() {
             res.send(result);
         });
 
+        app.get('/users/:email', async (req, res) => {
+            const email = req.params.email;
+            const query = { email }
+            const user = await userCollection.findOne(query);
+            res.send({ isSeller: user?.role === "Seller" });
+        })
+
+        app.post("/userProduct",async(req,res)=>
+        {
+            const userProduct = req.body;
+            console.log(userProduct)
+            const result = await userProductCollection.insertOne(userProduct);
+            res.send(result)
+        })
+
+        app.get("/userProduct/samsung",async(req,res)=>{
+            const query = {brandName:"samsung"};
+            const result = await userProductCollection.find(query).toArray();
+            console.log(result)
+            res.send(result);
+        })
 
         // samsung
         app.get('/samsung',async(req,res)=>
@@ -82,9 +104,8 @@ async function run() {
         {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
-            const cursor = samsungCollection.find(query);
-            const cat1 = await cursor.toArray();
-            res.send(cat1);
+            const result =await samsungCollection.find(query).toArray();
+            res.send(result);
         })
 
         //apple
