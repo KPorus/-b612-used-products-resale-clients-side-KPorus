@@ -98,6 +98,14 @@ async function run() {
 
         // seller user api
 
+        app.get("/sellerOrder/:email",async(req,res)=>
+        {
+            const sellerEmail = req.params.email
+            const filter = {sellerEmail}
+            const result = await ordersCollection.find(filter).toArray()
+            res.send(result)
+        })
+
         app.post('/users', async (req, res) => {
             const user = req.body;
             const result = await userCollection.insertOne(user);
