@@ -61,11 +61,20 @@ async function run() {
         })
 
 
+        // user profie 
+        app.get("/user/:email",async(req,res)=>
+        {
+            const email = req.params.email;
+            const query = { email }
+            const result = await userCollection.find(query).toArray()
+            console.log(result)
+            res.send(result)
+        })
+
         // buyer user api
 
         app.post('/users', async (req, res) => {
             const user = req.body;
-            console.log(user);
             const result = await userCollection.insertOne(user);
             res.send(result);
         });
@@ -80,7 +89,6 @@ async function run() {
         app.post("/userProduct",async(req,res)=>
         {
             const userProduct = req.body;
-            console.log(userProduct)
             const result = await userProductCollection.insertOne(userProduct);
             res.send(result)
         })
@@ -88,7 +96,6 @@ async function run() {
         app.get("/userProduct/samsung",async(req,res)=>{
             const query = {brandName:"samsung"};
             const result = await userProductCollection.find(query).toArray();
-            console.log(result)
             res.send(result);
         })
 
@@ -96,7 +103,6 @@ async function run() {
         {
             const query = {brandName:"apple"};
             const result = await userProductCollection.find(query).toArray();
-            console.log(result)
             res.send(result);
         })
 
@@ -104,7 +110,6 @@ async function run() {
         {
             const query = {brandName:"walton"};
             const result = await userProductCollection.find(query).toArray();
-            console.log(result)
             res.send(result);
         })
 
@@ -114,7 +119,6 @@ async function run() {
             console.log(email)
             const query = {email};
             const result = await userProductCollection.find(query).toArray();
-            console.log(result)
             res.send(result)
         })
 
