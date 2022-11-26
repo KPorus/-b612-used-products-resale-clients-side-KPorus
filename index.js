@@ -63,6 +63,13 @@ async function run() {
 
 
         // user profie 
+
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            const result = await userCollection.insertOne(user);
+            res.send(result);
+        });
+
         app.get("/user/:email",async(req,res)=>
         {
             const email = req.params.email;
@@ -96,6 +103,47 @@ async function run() {
             res.send(result);
         })
 
+        // admin user api
+
+        app.get("/users/admin/:email", async (req, res) => {
+            const email = req.params.email;
+            const query = { email }
+            const user = await userCollection.findOne(query);
+            res.send({ isAdmin: user?.role === "Admin" });
+        })
+
+        app.get("/allProduct",async(req,res)=>{
+            const query ={};
+            const result = await userProductCollection.find(query).toArray();
+            res.send(result)
+        })
+
+        app.get("/seller",async(req,res)=>{
+            const query ={role:"Seller"};
+            const user = await userCollection.find(query).toArray();
+            res.send(user)
+        })
+
+        app.delete("/seller/:id",async(req,res)=>{
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = await userCollection.deleteOne(filter);
+            res.send(result);
+        })
+
+        app.get("/buyer",async(req,res)=>{
+            const query ={role:"Buyer"};
+            const user = await userCollection.find(query).toArray();
+            res.send(user)
+        })
+
+        app.delete("/buyer/:id",async(req,res)=>{
+            const id = req.params.id;
+            const filter = { _id: ObjectId(id) };
+            const result = await userCollection.deleteOne(filter);
+            res.send(result);
+        })
+
         // seller user api
 
         app.get("/sellerOrder/:email",async(req,res)=>
@@ -106,11 +154,6 @@ async function run() {
             res.send(result)
         })
 
-        app.post('/users', async (req, res) => {
-            const user = req.body;
-            const result = await userCollection.insertOne(user);
-            res.send(result);
-        });
 
         app.get('/users/:email', async (req, res) => {
             const email = req.params.email;
