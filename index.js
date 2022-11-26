@@ -53,6 +53,7 @@ async function run() {
         const waltonCollection = client.db('Mobile').collection('walton');
         const userCollection = client.db('Mobile').collection('user');
         const userProductCollection = client.db('Mobile').collection('userProduct');
+        const ordersCollection = client.db('Mobile').collection('orders');
         
         
         app.get("/",(req,res)=>
@@ -71,7 +72,16 @@ async function run() {
             res.send(result)
         })
 
-        // buyer user api
+        // buyer user api 
+
+        app.post("/orders",async(req,res)=>{
+            const order = req.body
+            console.log(order)
+            const result = await ordersCollection.insertOne(order)
+            res.send(result);
+        })
+
+        // seller user api
 
         app.post('/users', async (req, res) => {
             const user = req.body;
