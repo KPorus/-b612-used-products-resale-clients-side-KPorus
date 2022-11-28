@@ -93,7 +93,7 @@ async function run() {
             }
             else
             {
-                res.send(result)
+                res.send(result[0])
             }
         })
 
