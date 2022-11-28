@@ -83,8 +83,18 @@ async function run() {
             const email = req.params.email;
             const query = { email }
             const result = await userCollection.find(query).toArray()
-            console.log(result)
-            res.send(result)
+            console.log(result.length)
+            if(result.length>1)
+            {
+                let userOne = result[0]
+                console.log(userOne);
+                res.send(userOne)
+                return
+            }
+            else
+            {
+                res.send(result)
+            }
         })
 
         // buyer user api 
